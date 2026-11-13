@@ -1,1 +1,370 @@
-Generic single-database configuration.
+# Airport Ground Operations & Baggage Management System
+
+## 1. Project Overview
+
+The **Airport Ground Operations & Baggage Management System** is an advanced backend application developed using FastAPI and PostgreSQL.
+
+The system is designed to manage and coordinate airport ground operations, including flight schedules, passenger check-in, baggage handling, gate assignments, ground staff activities, equipment allocation, aircraft turnaround operations, and operational incident management.
+
+It provides secure, role-based access control and RESTful APIs to improve operational efficiency, data management, and coordination between airport departments.
+
+## 2. Project Objectives
+
+- Manage airport and terminal information.
+- Maintain aircraft and flight schedules.
+- Manage passenger information and check-in operations.
+- Generate and manage boarding passes.
+- Track baggage throughout airport handling operations.
+- Manage baggage screening and baggage tracking.
+- Assign airport gates and counters.
+- Manage ground staff and operational tasks.
+- Allocate ground equipment and resources.
+- Track aircraft turnaround operations.
+- Record flight delays and operational incidents.
+- Generate operational reports and dashboard statistics.
+- Maintain audit logs for important system activities.
+- Provide secure authentication and role-based authorization.
+
+## 3. Technology Stack
+
+| Technology | Purpose |
+|---|---|
+| Python 3.11+ | Backend programming language |
+| FastAPI | REST API framework |
+| Pydantic | Data validation and serialization |
+| SQLAlchemy | ORM and database operations |
+| PostgreSQL | Relational database |
+| Alembic | Database migrations |
+| JWT | Authentication |
+| Passlib / Password Hashing | Secure password storage |
+| Pytest | Automated testing |
+| Docker | Application containerization |
+| Swagger / OpenAPI | API documentation |
+
+## 4. User Roles
+
+The application supports the following roles:
+
+1. **Super Admin** – Complete system administration and user management.
+2. **Airport Operations Manager** – Manages airport-wide operations.
+3. **Flight Operations Officer** – Manages flight schedules and flight-related operations.
+4. **Ground Staff Supervisor** – Supervises ground staff and operational tasks.
+5. **Baggage Handling Staff** – Handles baggage operations and baggage tracking.
+6. **Check-in Agent** – Manages passenger check-in and boarding passes.
+7. **Gate Agent** – Handles gate assignments and boarding-related operations.
+8. **Maintenance Staff** – Manages equipment and maintenance-related activities.
+
+## 5. Main Application Modules
+
+| Module | Description |
+|---|---|
+| Authentication | User registration, login, JWT authentication, and authorization |
+| User Management | Administrative user creation and role management |
+| Airports | Airport information management |
+| Terminals | Terminal management |
+| Flights | Flight schedules and flight information |
+| Passengers | Passenger information management |
+| Check-in | Passenger check-in operations |
+| Boarding Passes | Boarding pass management |
+| Baggage | Baggage registration and management |
+| Baggage Tracking | Baggage movement and status tracking |
+| Baggage Screening | Baggage security screening |
+| Gates | Airport gate management and assignments |
+| Counters | Check-in counter management |
+| Ground Staff | Ground staff management |
+| Ground Tasks | Ground task assignment and tracking |
+| Ground Equipment | Ground equipment management |
+| Resource Allocation | Allocation of operational resources |
+| Resource Assignments | Resource assignment management |
+| Aircraft Turnarounds | Aircraft turnaround operations |
+| Flight Delays | Flight delay recording and management |
+| Operational Incidents | Incident reporting and resolution |
+| Dashboard | Operational statistics and summaries |
+| Reports | Operational reporting |
+| Audit Logs | Recording and reviewing important system activities |
+
+## 6. Project Structure
+
+```text
+airport_ground_operations/
+│
+├── core/
+│   ├── config.py
+│   ├── constants.py
+│   ├── permissions.py
+│   └── security.py
+│
+├── db/
+│   ├── base.py
+│   └── session.py
+│
+├── models/
+│   ├── __init__.py
+│   └── [database model files]
+│
+├── schemas/
+│   └── [Pydantic schema files]
+│
+├── services/
+│   └── [business logic files]
+│
+├── routes/
+│   └── [API route files]
+│
+├── tests/
+│   └── [automated test files]
+│
+├── alembic/
+│   └── versions/
+│
+├── alembic.ini
+├── main.py
+├── requirements.txt
+├── .env
+├── .gitignore
+└── README.md
+```
+
+## 7. Installation and Setup
+
+### Prerequisites
+
+- Python 3.11 or later
+- PostgreSQL
+- Git
+- PowerShell
+
+### Step 1: Clone the Repository
+
+```powershell
+git clone <repository-url>
+cd airport_ground_operations
+```
+
+### Step 2: Create a Virtual Environment
+
+```powershell
+python -m venv .venv
+```
+
+### Step 3: Activate the Virtual Environment
+
+```powershell
+.\.venv\Scripts\Activate.ps1
+```
+
+### Step 4: Install Dependencies
+
+```powershell
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+## 8. Environment Configuration
+
+Create a `.env` file in the project root.
+
+Example:
+
+```env
+APP_NAME=Airport Ground Operations & Baggage Management System
+ENVIRONMENT=development
+DEBUG=True
+
+DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost:5433/airport_ground_operations
+
+TEST_DATABASE_URL=postgresql://postgres:YOUR_PASSWORD@localhost:5433/airport_ground_operations_test
+
+JWT_SECRET_KEY=YOUR_SECURE_SECRET_KEY
+JWT_ALGORITHM=HS256
+
+ACCESS_TOKEN_EXPIRE_MINUTES=30
+REFRESH_TOKEN_EXPIRE_DAYS=7
+```
+
+Replace the database username, password, and secret key with your own configuration.
+
+**Security:** Never commit `.env` or production credentials to Git.
+
+## 9. Database Setup
+
+Create the development and testing databases in PostgreSQL.
+
+```sql
+CREATE DATABASE airport_ground_operations;
+CREATE DATABASE airport_ground_operations_test;
+```
+
+Configure the database connection strings in `.env`.
+
+## 10. Database Migrations
+
+Apply all database migrations:
+
+```powershell
+alembic upgrade head
+```
+
+Check the current migration version:
+
+```powershell
+alembic current
+```
+
+Generate a new migration after model changes:
+
+```powershell
+alembic revision --autogenerate -m "describe_database_changes"
+```
+
+Apply the new migration:
+
+```powershell
+alembic upgrade head
+```
+
+## 11. Run the Application
+
+Start the FastAPI development server:
+
+```powershell
+uvicorn main:app --reload
+```
+
+The application will be available at:
+
+- API Base URL: http://127.0.0.1:8000
+- Swagger Documentation: http://127.0.0.1:8000/docs
+- ReDoc Documentation: http://127.0.0.1:8000/redoc
+- OpenAPI JSON: http://127.0.0.1:8000/openapi.json
+
+## 12. Authentication
+
+The application uses JWT-based authentication.
+
+Typical authentication workflow:
+
+1. User logs in with registered credentials.
+2. The API validates the credentials.
+3. The application generates an access token.
+4. The client sends the token in the Authorization header.
+5. The API validates the token and checks the user's role.
+
+Example Authorization header:
+
+```http
+Authorization: Bearer YOUR_ACCESS_TOKEN
+```
+
+Protected endpoints require valid authentication and appropriate permissions.
+
+## 13. API Testing
+
+The project uses Pytest and FastAPI TestClient for automated testing.
+
+Run all tests:
+
+```powershell
+python -m pytest -v
+```
+
+Run tests with a short summary:
+
+```powershell
+python -m pytest -q
+```
+
+Run a specific test file:
+
+```powershell
+python -m pytest .\tests\test_auth.py -v
+```
+
+### Current Test Results
+
+**452 tests passed successfully.**
+
+The automated test suite covers authentication, user management, airport operations, baggage handling, flight management, ground operations, resource allocation, incidents, reports, and audit logs.
+
+## 14. API Documentation
+
+Interactive API documentation is provided through Swagger UI.
+
+Open:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+Swagger allows users to:
+
+- View available API endpoints.
+- Review request and response schemas.
+- Test API operations.
+- Authenticate using JWT tokens.
+- Inspect API response codes.
+
+## 15. Security Features
+
+- JWT-based authentication.
+- Role-based access control (RBAC).
+- Password hashing.
+- Request validation using Pydantic.
+- Protected API endpoints.
+- Administrative user management.
+- Audit log foundation for recording system activities.
+- Separate development and testing databases.
+
+## 16. Testing Summary
+
+| Testing Area | Status |
+|---|---|
+| Authentication | Passed |
+| User Management | Passed |
+| Airport and Terminal Management | Passed |
+| Flight Management | Passed |
+| Passenger Management | Passed |
+| Check-in and Boarding Passes | Passed |
+| Baggage Management | Passed |
+| Baggage Tracking and Screening | Passed |
+| Gate and Counter Management | Passed |
+| Ground Staff and Tasks | Passed |
+| Equipment and Resource Management | Passed |
+| Aircraft Turnaround | Passed |
+| Flight Delays | Passed |
+| Operational Incidents | Passed |
+| Dashboard and Reports | Passed |
+| Audit Logs | Passed |
+
+**Total automated tests: 452 passed.**
+
+## 17. Future Enhancements
+
+- Real-time baggage tracking using RFID and barcode integration.
+- Live flight status integration.
+- Automated gate and counter allocation.
+- Real-time notifications for flight delays.
+- Advanced operational analytics.
+- Mobile application for ground staff.
+- Integration with airport information systems.
+- Enhanced audit event coverage across all operational modules.
+
+## 18. Conclusion
+
+The Airport Ground Operations & Baggage Management System provides a modular, secure, and scalable backend solution for managing airport ground activities.
+
+By combining FastAPI, PostgreSQL, SQLAlchemy, JWT authentication, Alembic migrations, and automated testing, the project establishes a strong foundation for efficient airport operations and baggage management.
+
+The current implementation has successfully passed **452 automated tests**, demonstrating the functionality of its implemented modules.
+
+---
+
+**Project:** Airport Ground Operations & Baggage Management System  
+**Backend Framework:** FastAPI  
+**Database:** PostgreSQL  
+**Language:** Python 3.11+  
+**Testing Framework:** Pytest  
+**API Documentation:** Swagger / OpenAPI
+
+AUTHOR
+Bethamcharla Srikanth
